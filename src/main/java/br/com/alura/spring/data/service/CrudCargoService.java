@@ -11,33 +11,35 @@ import br.com.alura.spring.data.repository.CargoRepository;
 @Service
 public class CrudCargoService {
 
-	private final CargoRepository cp;
+	private final CargoRepository cr;
 	
-	public CrudCargoService(CargoRepository rep) {
-		this.cp = rep;
+	public CrudCargoService(CargoRepository cr) {
+		this.cr = cr;
 	}
 	
 	public void inicial(Scanner scanner) {
 		
-		while(true) {
+		loop:while(true) {
 			System.out.println("\n----| Cadastro de Cargo |----"
 				     + "\n1 - Cadastrar cargo"
 				     + "\n2 - Atualizar cadastro"
-				     + "\n3 - Sair\n");
+				     + "\n3 - Listar cargos"
+				     + "\n4 - Sair\n");
 
 			System.out.println("Input: ");
 			int input = scanner.nextInt();
-
-			if (input == 1) {
+			
+			switch(input) {
+			
+			case 1:
 				this.salvar(scanner);
-				
-			} else if (input == 2) {
+			case 2:
 				this.atualizar(scanner);
-				
-			} else if (input == 3) {
-				break;
-				
-			} else {
+			case 3:
+				this.listar();
+			case 4:
+				break loop;
+			default:
 				System.out.println("| Valor Invalido |");
 			}
 		}
@@ -48,24 +50,30 @@ public class CrudCargoService {
 		String desc = scanner.next();
 
 		Cargo cargo = new Cargo(desc);
-		this.cp.save(cargo);
+		this.cr.save(cargo);
 	}
 
 	public void atualizar(Scanner scanner) {
-		List<Cargo> listaCargos = (List<Cargo>) this.cp.findAll();
+		List<Cargo> listaCargos = (List<Cargo>) this.cr.findAll();
 
-		System.out.println("\n---| Lista de Cargos |----");
-		for (Cargo cargo : listaCargos) {
-			System.out.println(cargo.getId() + " - " + cargo.getDescricao());
-		}
+		this.listar();
 
 		int inputIndex = scanner.nextInt();
-		Cargo c = listaCargos.get(inputIndex - 1);
+		Cargo cargo = listaCargos.get(inputIndex - 1);
 
 		System.out.println("\nDigite o novo cargo: ");
 		String inputCargo = scanner.next();
-		c.setDescricao(inputCargo);
-		this.cp.save(c);
+		cargo.setDescricao(inputCargo);
+		this.cr.save(cargo);
 
+	}
+	
+	public void listar() {
+		List<Cargo> listaCargos = (List<Cargo>) this.cr.findAll();
+		
+		System.out.println("\n---| Lista de Cargos |----");
+		for (Cargo cargo : listaCargos) {
+			System.out.println(cargo.toString());
+		}
 	}
 }
