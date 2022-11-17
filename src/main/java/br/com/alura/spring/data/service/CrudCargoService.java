@@ -33,10 +33,13 @@ public class CrudCargoService {
 			
 			case 1:
 				this.salvar(scanner);
+				break;
 			case 2:
 				this.atualizar(scanner);
+				break;
 			case 3:
 				this.listar();
+				break;
 			case 4:
 				break loop;
 			default:
@@ -54,13 +57,11 @@ public class CrudCargoService {
 	}
 
 	public void atualizar(Scanner scanner) {
-		List<Cargo> listaCargos = (List<Cargo>) this.cr.findAll();
-
 		this.listar();
 		
-		System.out.println("Digite o Id: ");
+		System.out.println("\nDigite o Id: ");
 		int inputIndex = scanner.nextInt();
-		Cargo cargo = listaCargos.get(inputIndex - 1);
+		Cargo cargo = this.cr.findById(inputIndex).get();
 
 		System.out.println("\nDigite o novo cargo: ");
 		String inputCargo = scanner.next();

@@ -108,9 +108,9 @@ public class Funcionario {
 					"\nNome: " + this.nome + 
 					"\nCPF: " + this.cpf + 
 					"\nSalario: " + this.salario +
-					"\nData de contratacao:" + this.dataContratacao + 
-					"\nCargo:" + this.cargo.getDescricao()+
-					"\nUnidade(s) de trabalho: " + this.unidadeTrabalhos;
+					"\nData de contratacao: " + this.dataContratacao + 
+					"\nCargo: " + this.cargo.getDescricao()+
+					"\nUnidade(s) de trabalho: \n" + this.unidadeTrabalhos + "\n";
 	}
 
 }

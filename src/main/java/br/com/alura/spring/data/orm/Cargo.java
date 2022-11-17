@@ -46,8 +46,8 @@ public class Cargo {
 	@Override
 	public String toString() {
 		return "Cargo -> " +
-					"\nId" + this.id + 
-					"\nDescricao: " + this.descricao;
+					"\nId: " + this.id + 
+					"\nDescricao: " + this.descricao + "\n";
 	}
 
 }

@@ -23,12 +23,15 @@ public class CrudFuncionarioService {
 	private final UnidadeTrabalhoRepository utr;
 	
 	private final CrudCargoService crs;
+	private final CrudUnidadeTrabalhoService cuts;
 	
 	public CrudFuncionarioService(FuncionarioRepository fr, CargoRepository cr, UnidadeTrabalhoRepository utr) {
 		this.fr = fr;
 		this.cr = cr;
 		this.utr = utr;
 		this.crs = new CrudCargoService(cr);
+		this.cuts = new CrudUnidadeTrabalhoService(utr);
+		
 	}
 	
 	public void inicial(Scanner scanner) {
@@ -47,10 +50,13 @@ public class CrudFuncionarioService {
 			
 			case 1:
 				this.salvar(scanner);
+				break;
 			case 2:
 				this.atualizar(scanner);
+				break;
 			case 3:
 				this.listar();
+				break;
 			case 4:
 				break loop;
 			default:
@@ -67,25 +73,23 @@ public class CrudFuncionarioService {
 		System.out.println("\nCPF do funcionario: ");
 		String cpf = scanner.next();
 		
-		System.out.println("\nSalario do funcionario: ");
-		BigDecimal salario = scanner.nextBigDecimal();
-		
 		Cargo cargo = this.cargoFuncionario(scanner);
 		List<UnidadeTrabalho> unidades = this.unidadeTrabalho(scanner);
 		
-		Funcionario funcionario = new Funcionario(nome, cpf, salario, cargo, unidades);
+		System.out.println("\nSalario do funcionario: ");
+		BigDecimal salario = scanner.nextBigDecimal();
 		
+		Funcionario funcionario = new Funcionario(nome, cpf, salario, cargo, unidades);
 		this.fr.save(funcionario);
 	}
 	
 	public void atualizar(Scanner scanner) {
-		List<Funcionario> listaFunc = (List<Funcionario>) this.fr.findAll();
 
 		this.listar();
 
 		System.out.println("Digite o Id: ");
 		int inputIndex = scanner.nextInt();
-		Funcionario func = listaFunc.get(inputIndex - 1);
+		Funcionario func = this.fr.findById(inputIndex).get();
 
 		loop: while (true) {
 			System.out.println("\n---| Dados Funcionario |---"
@@ -127,7 +131,6 @@ public class CrudFuncionarioService {
 			default:
 				System.out.println("| Valor Invalido |");
 			}
-
 		}
 		this.fr.save(func);
 	}
@@ -153,9 +156,11 @@ public class CrudFuncionarioService {
 	
 	private List<UnidadeTrabalho> unidadeTrabalho(Scanner scanner) {
 		List<UnidadeTrabalho> unidades = new ArrayList<>();
-
+		
+		this.cuts.listar();
+		
 		loop: while (true) {
-			System.out.println("Escolha a unidade: (Para sair digite 0)");
+			System.out.println("\nEscolha a unidade: (Para sair digite 0)");
 			Integer unidadeId = scanner.nextInt();
 
 			if (unidadeId != 0) {
