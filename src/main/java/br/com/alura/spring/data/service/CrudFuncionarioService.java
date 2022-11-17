@@ -48,7 +48,7 @@ public class CrudFuncionarioService {
 			case 1:
 				this.salvar(scanner);
 			case 2:
-				//this.atualizar(scanner);
+				this.atualizar(scanner);
 			case 3:
 				this.listar();
 			case 4:
@@ -77,23 +77,60 @@ public class CrudFuncionarioService {
 		
 		this.fr.save(funcionario);
 	}
-
-	/*
+	
 	public void atualizar(Scanner scanner) {
 		List<Funcionario> listaFunc = (List<Funcionario>) this.fr.findAll();
 
 		this.listar();
 
+		System.out.println("Digite o Id: ");
 		int inputIndex = scanner.nextInt();
 		Funcionario func = listaFunc.get(inputIndex - 1);
 
-		System.out.println("\nDigite o novo cargo: ");
-		String inputCargo = scanner.next();
-		func.setDescricao(inputCargo);
-		this.fr.save(func);
+		loop: while (true) {
+			System.out.println("\n---| Dados Funcionario |---"
+							 + "\n1 - Nome"
+							 + "\n2 - CPF"
+							 + "\n3 - Salario"
+							 + "\n4 - Cargo"
+							 + "\n5 - Unidades"
+							 + "\n6 - Sair");
+			System.out.println("\nO que deseja ser alterado? ");
+			int inputCargo = scanner.nextInt();
 
+			switch (inputCargo) {
+			case 1:
+				System.out.println("Digite o nome: ");
+				String nome = scanner.next();
+				func.setNome(nome);
+				break;
+			case 2:
+				System.out.println("Digite o CPF: ");
+				String cpf = scanner.next();
+				func.setCpf(cpf);
+				break;
+			case 3:
+				System.out.println("Digite o salario: ");
+				BigDecimal salario = scanner.nextBigDecimal();
+				func.setSalario(salario);
+				break;
+			case 4:
+				Cargo cargo = this.cargoFuncionario(scanner);
+				func.setCargo(cargo);
+				break;
+			case 5:
+				List<UnidadeTrabalho> listaUnidades = this.unidadeTrabalho(scanner);
+				func.setUnidadeTrabalhos(listaUnidades);
+				break;
+			case 6:
+				break loop;
+			default:
+				System.out.println("| Valor Invalido |");
+			}
+
+		}
+		this.fr.save(func);
 	}
-	*/
 	
 	public void listar() {
 		List<Funcionario> listaFunc = (List<Funcionario>) this.fr.findAll();
@@ -102,6 +139,16 @@ public class CrudFuncionarioService {
 		for (Funcionario func : listaFunc) {
 			System.out.println(func.toString());
 		}
+	}
+	
+	private Cargo cargoFuncionario(Scanner scanner) {
+		
+		this.crs.listar();
+		System.out.println("\nEscolha o cargo do funcionario: ");
+		
+		int inputIndex = scanner.nextInt();
+		Optional<Cargo> cargo = this.cr.findById(inputIndex);
+		return cargo.get();
 	}
 	
 	private List<UnidadeTrabalho> unidadeTrabalho(Scanner scanner) {
@@ -122,12 +169,4 @@ public class CrudFuncionarioService {
 		return unidades;
 	}
 	
-	private Cargo cargoFuncionario(Scanner scanner) {
-		
-		this.crs.listar();
-		System.out.println("\nEscolha o cargo do funcionario: ");
-		int inputIndex = scanner.nextInt();
-		Optional<Cargo> cargo = this.cr.findById(inputIndex);
-		return cargo.get();
-	}
 }

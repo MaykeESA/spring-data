@@ -103,8 +103,14 @@ public class Funcionario {
 	
 	@Override
 	public String toString() {
-		return "Funcionario-> \n" + "id:" + id + "| nome: " + nome + "| cpf:" + cpf + "| salario:" + salario
-				+ "| dataContratacao:" + dataContratacao + "| cargo:" + cargo.getDescricao();
+		return "Funcionario-> " +
+					"\nId: " + this.id + 
+					"\nNome: " + this.nome + 
+					"\nCPF: " + this.cpf + 
+					"\nSalario: " + this.salario +
+					"\nData de contratacao:" + this.dataContratacao + 
+					"\nCargo:" + this.cargo.getDescricao()+
+					"\nUnidade(s) de trabalho: " + this.unidadeTrabalhos;
 	}
 
 }

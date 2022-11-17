@@ -19,7 +19,7 @@ public class CrudCargoService {
 	
 	public void inicial(Scanner scanner) {
 		
-		loop:while(true) {
+		loop: while(true) {
 			System.out.println("\n----| Cadastro de Cargo |----"
 				     + "\n1 - Cadastrar cargo"
 				     + "\n2 - Atualizar cadastro"
@@ -57,7 +57,8 @@ public class CrudCargoService {
 		List<Cargo> listaCargos = (List<Cargo>) this.cr.findAll();
 
 		this.listar();
-
+		
+		System.out.println("Digite o Id: ");
 		int inputIndex = scanner.nextInt();
 		Cargo cargo = listaCargos.get(inputIndex - 1);
 
