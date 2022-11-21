@@ -103,7 +103,7 @@ public class Funcionario {
 	
 	@Override
 	public String toString() {
-		return "Funcionario-> " +
+		return "\nFuncionario-> " +
 					"\nId: " + this.id + 
 					"\nNome: " + this.nome + 
 					"\nCPF: " + this.cpf + 
