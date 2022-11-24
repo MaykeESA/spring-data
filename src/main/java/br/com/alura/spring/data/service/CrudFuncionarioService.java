@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.alura.spring.data.orm.Cargo;
@@ -43,7 +47,7 @@ public class CrudFuncionarioService {
 				     + "\n3 - Listar funcionarios"
 				     + "\n4 - Sair\n");
 
-			System.out.println("Input: ");
+			System.out.println("\nInput: ");
 			int input = scanner.nextInt();
 			
 			switch(input) {
@@ -55,7 +59,7 @@ public class CrudFuncionarioService {
 				this.atualizar(scanner);
 				break;
 			case 3:
-				this.listar();
+				this.listar(scanner);
 				break;
 			case 4:
 				break loop;
@@ -65,7 +69,7 @@ public class CrudFuncionarioService {
 		}
 	}
 
-	public void salvar(Scanner scanner) {
+	private void salvar(Scanner scanner) {
 		
 		System.out.println("\nNome do funcionario: ");
 		String nome = scanner.next();
@@ -83,9 +87,9 @@ public class CrudFuncionarioService {
 		this.fr.save(funcionario);
 	}
 	
-	public void atualizar(Scanner scanner) {
+	private void atualizar(Scanner scanner) {
 
-		this.listar();
+		this.listar(scanner);
 
 		System.out.println("Digite o Id: ");
 		int inputIndex = scanner.nextInt();
@@ -135,13 +139,16 @@ public class CrudFuncionarioService {
 		this.fr.save(func);
 	}
 	
-	public void listar() {
-		List<Funcionario> listaFunc = (List<Funcionario>) this.fr.findAll();
+	private void listar(Scanner scanner) {
+		System.out.println("\nEscolha a pagina: ");
+		Integer page = scanner.nextInt() - 1;
+		
+		Pageable paginas = PageRequest.of(page, 3, Sort.by(Sort.Direction.DESC, "salario"));
+		Page<Funcionario> listaFunc = this.fr.findAll(paginas);
 		
 		System.out.println("\n---| Lista de Funcionarios |----");
-		for (Funcionario func : listaFunc) {
-			System.out.println(func.toString());
-		}
+		listaFunc.forEach(funcionario -> System.out.println(funcionario));
+		System.out.println("Pagina: " + (listaFunc.getNumber() + 1) + "/" + (listaFunc.getSize() - 1));
 	}
 	
 	private Cargo cargoFuncionario(Scanner scanner) {

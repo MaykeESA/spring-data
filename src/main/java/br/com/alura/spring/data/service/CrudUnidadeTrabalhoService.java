@@ -25,7 +25,7 @@ public class CrudUnidadeTrabalhoService {
 							 + "\n3 - Listar unidades"
 							 + "\n4 - Sair");
 			
-			System.out.println("Input: ");
+			System.out.println("\nInput: ");
 			int input = scanner.nextInt();
 			
 			switch(input) {

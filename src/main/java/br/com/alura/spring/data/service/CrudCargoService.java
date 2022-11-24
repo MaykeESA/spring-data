@@ -26,7 +26,7 @@ public class CrudCargoService {
 				     + "\n3 - Listar cargos"
 				     + "\n4 - Sair\n");
 
-			System.out.println("Input: ");
+			System.out.println("\nInput: ");
 			int input = scanner.nextInt();
 			
 			switch(input) {

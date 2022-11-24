@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import br.com.alura.spring.data.service.CrudCargoService;
 import br.com.alura.spring.data.service.CrudFuncionarioService;
 import br.com.alura.spring.data.service.CrudUnidadeTrabalhoService;
+import br.com.alura.spring.data.service.RelatorioFuncionarioDinamico;
 import br.com.alura.spring.data.service.RelatoriosService;
 
 @SpringBootApplication
@@ -18,18 +19,20 @@ public class SpringDataApplication implements CommandLineRunner{
 	private final CrudFuncionarioService funcService;
 	private final CrudUnidadeTrabalhoService utService;
 	private final RelatoriosService relatorioService;
+	private final RelatorioFuncionarioDinamico relatorioFuncService;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringDataApplication.class, args);
 	}
 
 	public SpringDataApplication(CrudCargoService cargoService, CrudFuncionarioService funcService, 
-			CrudUnidadeTrabalhoService utService, RelatoriosService reService) {
+			CrudUnidadeTrabalhoService utService, RelatoriosService reService, RelatorioFuncionarioDinamico reFuncService) {
 		
 		this.cargoService = cargoService;
 		this.funcService = funcService;
 		this.utService = utService;
 		this.relatorioService = reService;
+		this.relatorioFuncService = reFuncService;
 	}
 	
 	@Override
@@ -42,7 +45,8 @@ public class SpringDataApplication implements CommandLineRunner{
 						     + "\n2 - Funcionario"
 						     + "\n3 - Unidade de trabalho"
 						     + "\n4 - Relatorios"
-						     + "\n5 - Sair");
+						     + "\n5 - Relatorio Dinamico"
+						     + "\n6 - Sair");
 			
 			System.out.println("\nInput: ");
 			int input = scanner.nextInt();
@@ -50,18 +54,21 @@ public class SpringDataApplication implements CommandLineRunner{
 			switch (input) {
 
 			case 1:
-				cargoService.inicial(scanner);
+				this.cargoService.inicial(scanner);
 				break;
 			case 2:
-				funcService.inicial(scanner);
+				this.funcService.inicial(scanner);
 				break;
 			case 3:
-				utService.inicial(scanner);
+				this.utService.inicial(scanner);
 				break;
 			case 4:
-				relatorioService.inicial(scanner);
+				this.relatorioService.inicial(scanner);
 				break;
 			case 5:
+				this.relatorioFuncService.inicial(scanner);
+				break;
+			case 6:
 				break loop;
 			default:
 				System.out.println("| Valor Invalido |");
